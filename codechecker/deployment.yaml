@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: codechecker-5g-air-simulator-enclave
+  labels:
+    app: codechecker-5g-air-simulator-enclave
+spec:
+  selector:
+    matchLabels:
+      app: codechecker-5g-air-simulator-enclave
+  template:
+    metadata:
+        labels:
+          app: codechecker-5g-air-simulator-enclave
+    spec:
+      volumes:
+        - name: pod-storage
+          persistentVolumeClaim:
+            claimName: storage-claim
+        - name: var-run-aesmd
+          hostPath:
+            path: /var/run/aesmd
+      tolerations:
+      - key: kubernetes.azure.com/sgx_epc_mem_in_MiB
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: codechecker-5g-air-simulator-enclave
+        image: hyker/codechecker-5g-air-simulator-enclave
+        imagePullPolicy: Always
+        env:
+        - name: SGX_AESM_ADDR
+          value: "1"
+        volumeMounts:
+          - mountPath: "/pod-storage/"
+            name: pod-storage
+          - name: var-run-aesmd
+            mountPath: /var/run/aesmd
+        resources:
+          limits:
+            kubernetes.azure.com/sgx_epc_mem_in_MiB: 10

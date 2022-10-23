@@ -1,0 +1,74 @@
+[loader]
+  entrypoint = "file:{{ gramine.libos }}"
+  argv_src_file = "file:/gramine_args.txt"
+  log_level = "{{ log_level }}"
+  preload = "file:{{ gramine.libos }}"
+  pal_internal_mem_size = "128M"
+  [loader.env]
+    LD_LIBRARY_PATH = "{{ python.stdlib }}/lib:/lib:{{ arch_libdir }}:/usr/lib:/usr/{{ arch_libdir }}"
+    PATH = "/usr/bin:/usr/sbin:/bin"
+
+[libos]
+  entrypoint = "{{ entrypoint }}"
+
+[sys]
+  enable_sigterm_injection = true
+
+[fs]
+  mounts = [
+    { path = "/lib", uri = "file:{{ gramine.runtimedir() }}" },
+    { path = "{{ arch_libdir }}", uri = "file:{{ arch_libdir }}" },
+    { path = "{{ python.stdlib }}", uri = "file:{{ python.stdlib }}" },
+    { path = "{{ python.distlib }}", uri = "file:{{ python.distlib }}" },
+    { path = "/bin/", uri = "file:/bin/" },
+    { path = "/sbin/", uri = "file:/sbin/" },
+    { path = "/usr/bin", uri = "file:/usr/bin" },
+    { path = "/usr/local/bin", uri = "file:/usr/local/bin" },
+    { path = "/usr/local/lib/python3.8", uri = "file:/usr/local/lib/python3.8" },
+    { path = "/script/", uri = "file:/script/" },
+    { path = "/pod-storage/Scancode30.1.0/", uri = "file:/pod-storage/Scancode30.1.0/" },
+    { type = "encrypted", path = "/toe/", uri = "file:/toe/", key_name = "_sgx_mrenclave" },
+    { type = "encrypted", path = "/result/", uri = "file:/result/", key_name = "_sgx_mrenclave" },
+    { path = "/gramine_args.txt", uri = "file:/gramine_args.txt" },
+    { type = "encrypted", path = "/tmp", uri = "file:/extratmp", key_name = "_sgx_mrenclave" },
+    { path = "/usr/lib/gcc/x86_64-linux-gnu/9/", uri = "file:/usr/lib/gcc/x86_64-linux-gnu/9/" },
+    { path = "/usr/lib/x86_64-linux-gnu/", uri = "file:/usr/lib/x86_64-linux-gnu/" },
+    { type = "tmpfs", path ="/root/" },
+    { type = "tmpfs", path ="/etc/ld.so.cache" },
+  ]
+
+[sgx]
+  debug = false
+  nonpie_binary = true
+  enclave_size = "2G"
+  thread_num = 32
+  ra_client_spid = "{{ ra_client_spid }}"
+  ra_client_linkable = {{ 'true' if ra_client_linkable == '1' else 'false' }}
+  remote_attestation = true
+
+  trusted_files = [
+    "file:{{ gramine.libos }}",
+    "file:{{ entrypoint }}/",
+    "file:{{ gramine.runtimedir() }}/",
+    "file:{{ arch_libdir }}/",
+    "file:{{ python.stdlib }}/",
+    "file:{{ python.distlib }}/",
+    "file:/sbin/",
+    "file:/bin/",
+    "file:/usr/lib/gcc/x86_64-linux-gnu/9/",
+    "file:/usr/bin/",
+    "file:/usr/local/bin/",
+    "file:/usr/local/lib/python3.8/",
+    "file:/script/",
+    "file:/gramine_args.txt",
+    "file:/etc/nsswitch.conf",
+    "file:/etc/hosts",
+    "file:/etc/group",
+    "file:/etc/passwd",
+    "file:/etc/gai.conf",
+    "file:/usr/lib/x86_64-linux-gnu/",
+  ]
+
+  allowed_files = [
+    "file:/pod-storage/Scancode30.1.0/",
+  ]

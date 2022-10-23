@@ -1,0 +1,41 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: cppcheck-enclave
+  labels:
+    app: cppcheck-enclave
+spec:
+  selector:
+    matchLabels:
+      app: cppcheck-enclave
+  template:
+    metadata:
+        labels:
+          app: cppcheck-enclave
+    spec:
+      volumes:
+        - name: pod-storage
+          persistentVolumeClaim:
+            claimName: storage-claim
+        - name: var-run-aesmd
+          hostPath:
+            path: /var/run/aesmd
+      tolerations:
+      - key: kubernetes.azure.com/sgx_epc_mem_in_MiB
+        operator: Exists
+        effect: NoSchedule
+      containers:
+      - name: cppcheck-enclave
+        image: hyker/cppcheck-enclave
+        imagePullPolicy: Always
+        env:
+        - name: SGX_AESM_ADDR
+          value: "1"
+        volumeMounts:
+          - mountPath: "/pod-storage/"
+            name: pod-storage
+          - name: var-run-aesmd
+            mountPath: /var/run/aesmd
+        resources:
+          limits:
+            kubernetes.azure.com/sgx_epc_mem_in_MiB: 10

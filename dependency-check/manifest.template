@@ -1,0 +1,83 @@
+[loader]
+  entrypoint = "file:{{ gramine.libos }}"
+  argv_src_file = "file:/gramine_args.txt"
+  log_level = "{{ log_level }}"
+  preload = "file:{{ gramine.libos }}"
+  [loader.env]
+    LD_LIBRARY_PATH = "/lib:{{ arch_libdir }}:/usr/lib:/usr/{{ arch_libdir }}:/usr/lib/jvm/java-11-openjdk-amd64/lib/"
+    PATH = "/usr/bin:/bin"
+
+[libos]
+  entrypoint = "{{ entrypoint }}"
+
+[sys]
+  enable_sigterm_injection = true
+
+[fs]
+  mounts = [
+    { uri = "file:{{ gramine.runtimedir() }}", path = "/lib" },
+    { uri = "file:{{ arch_libdir }}", path = "{{ arch_libdir }}" },
+    { uri = "file:/usr", path = "/usr" },
+    { uri = "file:/etc", path = "/etc" },
+    { uri = "file:/bin", path = "/bin" },
+    { uri = "file:/dependency-check", path = "/dependency-check" },
+    { uri = "file:/dependency-check/data/", path = "/dependency-check/data/" },
+    { uri = "file:/tmp", path="/tmp" }, 
+    { uri = "file:/gramine_args.txt", path = "/gramine_args.txt" },
+    { path = "/script/", uri = "file:/script/" },
+    { type = "encrypted", path = "/toe/", uri = "file:/toe/", key_name = "_sgx_mrenclave" },
+    { type = "encrypted", path = "/result/", uri = "file:/result/", key_name = "_sgx_mrenclave" },
+    { path = "/pod-storage/Dependency-Check7.2.1/", uri = "file:/pod-storage/Dependency-Check7.2.1/" },
+    { path = "/usr/local/lib/python3.8/", uri = "file:/usr/local/lib/python3.8/"},
+    #{ type = "encrypted", path = "/dependency-check/data/"}
+  ]
+
+[sgx]
+  debug = false
+  nonpie_binary = true
+  enclave_size = "8G"
+  thread_num = 64
+  ra_client_spid = "{{ ra_client_spid }}"
+  ra_client_linkable = {{ 'true' if ra_client_linkable == '1' else 'false' }}
+  remote_attestation = true
+
+  trusted_files = [
+    "file:{{ gramine.libos }}",
+    "file:{{ entrypoint }}",
+    "file:{{ gramine.runtimedir() }}/",
+    "file:{{ arch_libdir }}/",
+    "file:/usr/{{ arch_libdir }}/",
+    #"file:/usr/lib/x86_64-linux-gnu/gramine/",
+    "file:{{ python.stdlib }}/",
+    "file:{{ python.distlib }}/",
+    "file:/usr/bin/",
+    "file:/bin/",
+    "file:/script/",
+    "file:/gramine_args.txt",
+  
+    "file:/usr/lib/jvm/java-11-openjdk-amd64/",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/lib/",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/bin/",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/conf/security/java.security",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/conf/security/java.policy",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/conf/logging.properties",
+    # "file:/usr/lib/jvm/java-11-openjdk-amd64/conf/security/policy/",
+    "file:/usr/share/java/",
+    "file:/etc/localtime",
+    "file:/etc/nsswitch.conf",
+    "file:/etc/passwd",
+    "file:/etc/timezone",
+    "file:/usr/share/ca-certificates/",
+    "file:/etc/ssl/",
+    "file:/etc/host.conf/",
+    "file:/etc/resolv.conf/",
+    "file:/etc/hosts/",
+    "file:/dependency-check/",
+    "file:/usr/local/lib/python3.8/",
+  ]
+
+  allowed_files = [
+    "file:/tmp",
+    "file:/pod-storage/Dependency-Check7.2.1/",
+    "file:/dependency-check/data",
+  ]
