@@ -1,0 +1,20 @@
+{
+  "name": "quote-validator",
+  "version": "1.0.0",
+  "description": "Help with validating quotes from SGX",
+  "main": "test.js",
+  "type": "module",
+  "scripts": {
+    "test": "node validate.js ./quote.data ./report.data uIS6ZhE924aZ+F4REN2GmKzHkfPRqqHh0/HFMGmBnDU="
+  },
+  "author": "jakob folkesson",
+  "license": "ISC",
+  "bin": {
+    "quote-validator":"./validate.js"
+  },
+  "dependencies": {
+    "asn1js": "^3.0.5",
+    "base64-js": "^1.5.1",
+    "pkijs": "^3.0.8"
+  }
+}
