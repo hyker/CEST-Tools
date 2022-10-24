@@ -1,4 +1,4 @@
-## dependecyies
+## dependencies
 ```
   node v18+
   npm v8.8+
