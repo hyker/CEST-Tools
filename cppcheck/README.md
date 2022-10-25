@@ -1,7 +1,7 @@
 # Cppcheck tool enclave
 Cppcheck is a static analysis tool for C/C++ code. It provides unique code analysis to detect bugs and focuses on detecting undefined behaviour and dangerous coding constructs. The goal is to have very few false positives. Cppcheck is designed to be able to analyze your C/C++ code even if it has non-standard syntax (common in embedded projects).
 
-Link to original repo: https://github.com/Ericsson/codechecker
+Link to original repo: https://github.com/danmar/cppcheck
 
 ## Changes
 The CEST-platform run an unmodified version of Cppcheck.
