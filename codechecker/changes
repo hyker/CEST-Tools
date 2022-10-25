@@ -1,0 +1,57 @@
+/usr/local/lib/python3.8/dist-packages/codechecker_analyzer/analyzer.py
+
+class MockManager():
+    def dict(self, mapping=None):
+        return dict() if mapping is None else dict(mapping)
+    def start(self, init):
+        init()
+        pass
+    def shutdown(self):
+        pass
+
+manager = MockManager()
+
+
+/usr/local/lib/python3.8/dist-packages/codechecker_analyzer/analysis_manager.py
+
+class Result():
+    def __init__(self, value):
+        self.value = value
+    def get(self, timeout):
+        return self.value
+
+class MockPool():
+    def __init__(self, jobs, initializer, initargs):
+        initializer(*initargs)
+    def map_async(self, func, iterable, chunksize, callback):
+        results = map(func, iterable)
+        callback(results)
+        return Result(results)
+    def close(self):
+        pass
+    def join(self):
+        pass
+    def terminate(self):
+        pass
+
+
+class Value():
+    def __init__(self, value):
+        self.value = value
+
+checked_var = Value(1)
+actions_num = Value(len(actions))
+pool = MockPool(jobs,
+                initializer=init_worker,
+                initargs=(checked_var, actions_num))
+
+
+/usr/lib/python3.8/zipfile.py
+
+def __init__(self, file, mode="r", compression=ZIP_STORED, allowZip64=True,
+                 compresslevel=None, *, strict_timestamps=False):
+
+
+/usr/local/lib/python3.8/dist-packages/codechecker_analyzer/analyzers/analyzer_base.py
+
+preexec_fn
