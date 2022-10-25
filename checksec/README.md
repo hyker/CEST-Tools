@@ -4,7 +4,7 @@ A simple tool to verify the security properties of your binaries.
 Link to original repo: https://github.com/Wenzel/checksec.py
 
 ## Changes
-The CEST-version has some minor changes from the original program to make it perform better in an encalve enviroment. It was made to run on a single thread and there was changes to how ldconfig is found on the system. 
+The CEST-version has some minor changes from the original program to make it perform better in an enclave enviroment. It was made to run on a single thread and there was changes to how ldconfig is found on the system. 
 
 For more details on these changes see the repo of the fork that is running in the enclave: https://github.com/hyker/checksec.py
 
