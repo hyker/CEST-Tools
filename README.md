@@ -1,11 +1,11 @@
 # CEST-Tools
 Tools of CEST
 
-- checksec
-- codechecker
-- cppcheck
-- dependency-check
-- flawfinder
+- [checksec](https://github.com/hyker/CEST-Tools/tree/main/checksec)
+- [codechecker](https://github.com/hyker/CEST-Tools/tree/main/codechecker)
+- [cppcheck](https://github.com/hyker/CEST-Tools/tree/main/cppcheck)
+- [dependency-check](https://github.com/hyker/CEST-Tools/tree/main/dependency-check)
+- [flawfinder](https://github.com/hyker/CEST-Tools/tree/main/flawfinder)
 
 ## using prebuilt image
 
