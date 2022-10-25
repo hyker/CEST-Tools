@@ -4,7 +4,7 @@ CodeChecker is an analyzer tooling, defect database and viewer extension for the
 Link to original repo: https://github.com/Ericsson/codechecker
 
 ## Changes
-The CEST-version has some minor changes from the original program to make it perform better in an encalve enviroment. The analysis runs as a single process instead of using multiprocessing and the use of preexec_fn was removed because it is not thread safe, for more details see the file "changes" in this folder.
+The CEST-version has some minor changes from the original program to make it perform better in an enclave enviroment. The analysis runs as a single process instead of using multiprocessing and the use of preexec_fn was removed because it is not thread safe, for more details see the file "changes" in this folder.
 
 ## MRENCLAVE
 To verify that the software running inside the enclave is the same as in this repo, you can compare the MRENCALVE value. The MRENCLAVE value uniquely identifies an enclave and will change if any software is modified. The MRENCLAVE value will be printed during the docker build process and can be accessed from within the enclave the while in the root folder with the command:
