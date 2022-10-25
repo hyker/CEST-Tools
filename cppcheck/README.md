@@ -13,5 +13,5 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The lastest MRENCLAVE value for Cppcheck tool enclave was (base64): 
 ```
-Rrue4RlBHmCJx81Qx7XF0dykKt1Ch3QWq6SJklcE+c0=
+uIS6ZhE924aZ+F4REN2GmKzHkfPRqqHh0/HFMGmBnDU=
 ```
