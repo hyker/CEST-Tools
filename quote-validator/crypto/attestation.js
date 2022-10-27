@@ -23,22 +23,18 @@ const INTEL_ROOT_CA = `-----BEGIN CERTIFICATE-----
   AiEAss0qf7FlMmAMet+gbpLD97ldYy/wqjjmwN7yHRVr2AM=
   -----END CERTIFICATE-----`;
 
+const OID_CRL_DISTRIBUTION_POINTS = "2.5.29.31";
 
-const ber = INTEL_ROOT_CA.match(/(?:-+BEGIN CERTIFICATE-+)([\s\S]+?)(?:-+END CERTIFICATE-+)/i)
+const convertPEMToBase64BER = pem => pem.match(/(?:-+BEGIN CERTIFICATE-+)([\s\S]+?)(?:-+END CERTIFICATE-+)/i)[1]?.replace(/\s/g, "");
+
 const intelRootCA = new Certificate({
-  schema: fromBER(Data.fromBase64(ber[1].replace(/\s/g, "")).createArrayBuffer()).result
+  schema: fromBER(Data.fromBase64(convertPEMToBase64BER(INTEL_ROOT_CA)).createArrayBuffer()).result
 })
 
-const getCRLDistrubutionPoints = (certificate) => { 
-  const decode = buffer => new TextDecoder().decode(buffer)
-
-  return certificate.extensions
-    .filter(extension => extension.parsedValue)
-    .filter(extension => extension.parsedValue.distributionPoints)
-    .map(e => e.extnValue.valueBeforeDecode)
-    .map(val => decode(val))
-    .map(brokenUrl => brokenUrl.replace(/^.+http/,'http'))
-}
+const getCRLDistrubutionPoints = certificate => certificate.extensions
+  .filter(extension => extension.extnID === OID_CRL_DISTRIBUTION_POINTS)
+  .map(extension => new TextDecoder().decode(extension.extnValue.valueBeforeDecode))
+  .map(brokenUrl => brokenUrl.replace(/^.+http/,'http'));
 
 const getPublicKey = certificate => {
   return importPublicECDSAKey(new Data(certificate.subjectPublicKeyInfo.subjectPublicKey.valueBlock.valueHex))
@@ -264,17 +260,17 @@ export const verifyReport = async (report, { securityVersion = 0, MRENCLAVE, sig
   const certificateChain = quote.qeCertData.data.toUTF8().match(/(-+BEGIN CERTIFICATE-+[\s\S]+?-+END CERTIFICATE-+)/g)
 
   for (let i = 0; i < certificateChain.length; ++i) {
-    const pem = certificateChain[i].match(/(?:-+BEGIN CERTIFICATE-+)([\s\S]+?)(?:-+END CERTIFICATE-+)/i)
-    const data = Data.fromBase64(pem[1].replace(/\s/g, "")).createArrayBuffer()
+    const data = Data.fromBase64(convertPEMToBase64BER(certificateChain[i])).createArrayBuffer();
     certificateChain[i] = new Certificate({
       schema: fromBER(data).result
     })
   }
   
+  const unique = (value, index, self) => self.indexOf(value) === index;
   const allCrls = certificateChain
-    .map(c => getCRLDistrubutionPoints(c))
-    .reduce((acc, el) => acc.add(el), new Set())
-  const crlsPromises = [...allCrls].map(url => fetch(url))
+    .flatMap(getCRLDistrubutionPoints)
+    .filter(unique);
+  const crlsPromises = allCrls.map(url => fetch(url))
   const responses =  await Promise.all(crlsPromises)
   const crlsRaw = await Promise.all(responses.map(response => response.arrayBuffer()))
   const crls = crlsRaw.map(crl => new CertificateRevocationList({ schema: fromBER(crl).result }));
