@@ -11,7 +11,7 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
-The lastest MRENCLAVE value for Cppcheck tool enclave was (base64): 
+The lastest MRENCLAVE value for Cppcheck tool enclave was (hex): 
 ```
-uIS6ZhE924aZ+F4REN2GmKzHkfPRqqHh0/HFMGmBnDU=
+a7d5000db100bd8f7aeaf494c0830efc3fd746ecaef79777b0536825ff40aa60
 ```
