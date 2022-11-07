@@ -11,6 +11,8 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
+The MRENCLAVE value will be printed in hexadecimal and needs to be converted to base64 to be compared with the value from the CEST-platform.
+
 The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64): 
 ```
 e/gQbPCVzlcjy8SU4E6ngiSzmVsJqgIHQ9W7KPqRODI=
