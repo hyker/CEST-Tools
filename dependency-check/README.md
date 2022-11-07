@@ -11,7 +11,7 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
-The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64): 
+The lastest MRENCLAVE value for Dependency-Check tool enclave was (hex): 
 ```
-Rrue4RlBHmCJx81Qx7XF0dykKt1Ch3QWq6SJklcE+c0=
+90577dec8de6ec4278b5f34ac4019ef66cb039f897d367524690d216f793ecd2
 ```
