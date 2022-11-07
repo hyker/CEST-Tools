@@ -13,9 +13,9 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
-The lastest MRENCLAVE value for Checksec tool enclave was (hex): 
+The lastest MRENCLAVE value for Checksec tool enclave was (base64): 
 ```
-d65736c757be8b98e49ca375fe5aa036bbc90c814b6ee6efbb28e79ecdeae6f4
+1lc2x1e+i5jknKN1/lqgNrvJDIFLbubvuyjnns3q5vQ=
 ```
 ## Building
 To build everything locally you must first build the base image. 
