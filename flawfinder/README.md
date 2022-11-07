@@ -7,7 +7,7 @@ Link to original repo: https://github.com/david-a-wheeler/flawfinder
 The CEST-platform run an unmodified version of Flawfinder.
 
 ## MRENCLAVE
-To verify that the software running inside the enclave is the same as in this repo, you can compare the MRENCLAVE value. The MRENCLAVE value uniquely identifies an enclave and will change if any software is modified. The MRENCLAVE value will be printed during the docker build process and can be accessed from within the enclave the while in the root folder with the command:
+To verify that the software running inside the enclave is the same as in this repo, you can compare the MRENCLAVE value. The MRENCLAVE value uniquely identifies an enclave and will change if any software is modified. The MRENCLAVE value will be printed during the docker build process and can be accessed from within the container the while in the root folder with the command:
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
