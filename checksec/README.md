@@ -20,7 +20,7 @@ d65736c757be8b98e49ca375fe5aa036bbc90c814b6ee6efbb28e79ecdeae6f4
 ## Building
 To build everything locally you must first build the base image. 
 
-To build this docker image, while being in this directory run the command:
+To build this docker image, while being in root directory (where the script build_tool.sh is located) run the command:
 ```console
-docker build . -t hyker/checksec-enclave
+./build_tool.sh checksec
 ```
