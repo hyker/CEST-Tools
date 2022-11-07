@@ -25,6 +25,8 @@ RUN wget https://github.com/jeremylong/DependencyCheck/releases/download/v7.2.1/
 RUN unzip /dependency-check-7.2.1-release.zip
 RUN /dependency-check/bin/dependency-check.sh --updateonly
 
+COPY common/aesmd.conf /etc/aesmd.conf
+COPY common/sgx_default_qcnl.conf /etc/sgx_default_qcnl.conf
 RUN mkdir -p /script
 COPY common/run.py /script/run.py
 COPY tool.py /script/tool.py
@@ -33,6 +35,8 @@ RUN mkdir /toe
 RUN mkdir /result
 COPY common/cestcrypto.py /script/cestcrypto.py
 RUN mkdir -p /pod-storage/DependencyChecker7.2.1/
+
+#RUN cp -r /dependency-check/data/ /dependency-check/databackup/
 
 WORKDIR /
 RUN gramine-argv-serializer "python" "/script/run.py" > /gramine_args.txt

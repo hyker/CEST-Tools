@@ -9,6 +9,8 @@ TOOL_FOLDER = "/pod-storage/CodeChecker6.18.2/"
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
 
+def init_tool():
+  return
 
 def find(name, path):
     for root, dirs, files in os.walk(path):

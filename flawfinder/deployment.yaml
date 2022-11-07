@@ -5,6 +5,7 @@ metadata:
   labels:
     app: flawfinder-enclave
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: flawfinder-enclave
@@ -20,10 +21,6 @@ spec:
         - name: var-run-aesmd
           hostPath:
             path: /var/run/aesmd
-      tolerations:
-      - key: kubernetes.azure.com/sgx_epc_mem_in_MiB
-        operator: Exists
-        effect: NoSchedule
       containers:
       - name: flawfinder-enclave
         image: hyker/flawfinder-enclave
@@ -38,4 +35,6 @@ spec:
             mountPath: /var/run/aesmd
         resources:
           limits:
-            kubernetes.azure.com/sgx_epc_mem_in_MiB: 10
+            sgx.intel.com/epc: "10Mi"
+            sgx.intel.com/enclave: 1
+            sgx.intel.com/provision: 1

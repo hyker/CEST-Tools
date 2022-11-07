@@ -29,7 +29,7 @@
     { type = "encrypted", path = "/result/", uri = "file:/result/", key_name = "_sgx_mrenclave" },
     { path = "/pod-storage/Dependency-Check7.2.1/", uri = "file:/pod-storage/Dependency-Check7.2.1/" },
     { path = "/usr/local/lib/python3.8/", uri = "file:/usr/local/lib/python3.8/"},
-    #{ type = "encrypted", path = "/dependency-check/data/"}
+    #{ type = "encrypted", path = "/dependency-check/data/", uri = ""}
   ]
 
 [sgx]

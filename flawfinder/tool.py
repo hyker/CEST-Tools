@@ -6,10 +6,16 @@ TOOL_FOLDER = "/pod-storage/Flawfinder2.0.19/"
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
 
+def init_tool():
+  return
+
 def run_tool(result_folder, argument, tools_are_silent):
   command = "/usr/local/bin/flawfinder --sarif {} {}".format(argument, READABLE_TOE)
   command_no_extra_spaces = re.sub(" +", " ", command)
   result = subprocess.run(command_no_extra_spaces.split(" "), capture_output=True, text=True)
+  if (not result.stdout.startswith("{")):
+    raise Exception(str(result.stdout))
+  
   with open(result_folder + "/result", "w") as result_file:
       result_file.write(result.stdout)
 

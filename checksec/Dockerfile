@@ -28,8 +28,8 @@ RUN pip3 install pycryptodome tinyec
 RUN mkdir -p "$HOME"/.config/gramine/
 RUN openssl genrsa -3 -out "$HOME"/.config/gramine/enclave-key.pem 3072
 
-#COPY common/aesmd.conf /etc/aesmd.conf
-#COPY common/sgx_default_qcnl.conf /etc/sgx_default_qcnl.conf
+COPY common/aesmd.conf /etc/aesmd.conf
+COPY common/sgx_default_qcnl.conf /etc/sgx_default_qcnl.conf
 RUN mkdir -p /script
 COPY common/run.py /script/run.py
 COPY tool.py /script/tool.py

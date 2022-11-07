@@ -77,35 +77,35 @@ while True:
     with open(toe_raw, "rb") as f:
         encrypted_message = f.read()
 
-    alls = encryptedSymetricInfo
-    pub = alls['userPublicKey']
-
-    pubx = int.from_bytes(base64.urlsafe_b64decode(
-        pub["x"] + '=='), byteorder="big")
-    puby = int.from_bytes(base64.urlsafe_b64decode(
-        pub["y"] + '=='), byteorder="big")
-    curve = registry.get_curve('secp256r1')  # AKA "P-256"
-    pub_point = ec.Point(curve, x=pubx, y=puby)
-    pub_keypair = ec.Keypair(curve, pub=pub_point)
-
-    secret = ecdh_priv.get_secret(pub_keypair)
-    k = ecc_point_to_256_bit_key(secret)
-    sharedKey = k.to_bytes(32, byteorder='big')
-
-    base64K = base64.urlsafe_b64encode(sharedKey).decode('ascii')
-    print("sharedKey:"+base64K)
-
-    iv = base64.urlsafe_b64decode(alls["iv"] + "==")
-    print("iv:" + alls["iv"])
-
-    cipher_and_auth_tag = base64.urlsafe_b64decode(alls["cipher"])
-    print("cipher:" + alls["cipher"])
-    cipher = cipher_and_auth_tag[:-16]
-    auth_tag = cipher_and_auth_tag[-16:]
-
-    aes = AES.new(sharedKey, AES.MODE_GCM, nonce=iv)
-
     try:
+        alls = encryptedSymetricInfo
+        pub = alls['userPublicKey']
+
+        pubx = int.from_bytes(base64.urlsafe_b64decode(
+            pub["x"] + '=='), byteorder="big")
+        puby = int.from_bytes(base64.urlsafe_b64decode(
+            pub["y"] + '=='), byteorder="big")
+        curve = registry.get_curve('secp256r1')  # AKA "P-256"
+        pub_point = ec.Point(curve, x=pubx, y=puby)
+        pub_keypair = ec.Keypair(curve, pub=pub_point)
+
+        secret = ecdh_priv.get_secret(pub_keypair)
+        k = ecc_point_to_256_bit_key(secret)
+        sharedKey = k.to_bytes(32, byteorder='big')
+
+        base64K = base64.urlsafe_b64encode(sharedKey).decode('ascii')
+        print("sharedKey:"+base64K)
+
+        iv = base64.urlsafe_b64decode(alls["iv"] + "==")
+        print("iv:" + alls["iv"])
+
+        cipher_and_auth_tag = base64.urlsafe_b64decode(alls["cipher"])
+        print("cipher:" + alls["cipher"])
+        cipher = cipher_and_auth_tag[:-16]
+        auth_tag = cipher_and_auth_tag[-16:]
+
+        aes = AES.new(sharedKey, AES.MODE_GCM, nonce=iv)
+        
         plain_text = aes.decrypt_and_verify(cipher, auth_tag)
     except Exception as e:
         os.remove(toe_raw)

@@ -5,6 +5,7 @@ metadata:
   labels:
     app: checksec-enclave
 spec:
+  replicas: 1
   selector:
     matchLabels:
       app: checksec-enclave
@@ -34,4 +35,6 @@ spec:
           mountPath: /var/run/aesmd
         resources:
           limits:
-            kubernetes.azure.com/sgx_epc_mem_in_MiB: 10
+            sgx.intel.com/epc: "10Mi"
+            sgx.intel.com/enclave: 1
+            sgx.intel.com/provision: 1
