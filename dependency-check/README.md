@@ -15,3 +15,10 @@ The lastest MRENCLAVE value for Dependency-Check tool enclave was (hex):
 ```
 90577dec8de6ec4278b5f34ac4019ef66cb039f897d367524690d216f793ecd2
 ```
+## Building
+To build everything locally you must first build the base image. 
+
+To build this docker image, while being in this directory run the command:
+```console
+docker build . -t hyker/dependency-check-enclave
+```

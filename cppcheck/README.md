@@ -15,3 +15,10 @@ The lastest MRENCLAVE value for Cppcheck tool enclave was (hex):
 ```
 a7d5000db100bd8f7aeaf494c0830efc3fd746ecaef79777b0536825ff40aa60
 ```
+## Building
+To build everything locally you must first build the base image. 
+
+To build this docker image, while being in this directory run the command:
+```console
+docker build . -t hyker/cppcheck-enclave
+```

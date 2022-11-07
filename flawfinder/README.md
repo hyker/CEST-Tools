@@ -15,3 +15,10 @@ The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64):
 ```
 7bf8106cf095ce5723cbc494e04ea78224b3995b09aa020743d5bb28fa913832
 ```
+## Building
+To build everything locally you must first build the base image. 
+
+To build this docker image, while being in this directory run the command:
+```console
+docker build . -t hyker/flawfinders-enclave
+```
