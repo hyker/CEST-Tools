@@ -13,7 +13,7 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The lastest MRENCLAVE value for Dependency-Check tool enclave was (hex): 
 ```
-90577dec8de6ec4278b5f34ac4019ef66cb039f897d367524690d216f793ecd2
+kFd97I3m7EJ4tfNKxAGe9mywOfiX02dSRpDSFveT7NI=
 ```
 ## Building
 To build everything locally you must first build the base image. 
