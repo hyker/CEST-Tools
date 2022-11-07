@@ -15,5 +15,5 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The lastest MRENCLAVE value for Checksec tool enclave was (hex): 
 ```
-43a64f6e1fdba5c85f3785d35e74be3adf0bdfb8e090b0318addcadee4736ec1
+d65736c757be8b98e49ca375fe5aa036bbc90c814b6ee6efbb28e79ecdeae6f4
 ```
