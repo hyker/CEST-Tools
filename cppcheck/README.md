@@ -13,7 +13,7 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The lastest MRENCLAVE value for Cppcheck tool enclave was (hex): 
 ```
-a7d5000db100bd8f7aeaf494c0830efc3fd746ecaef79777b0536825ff40aa60
+p9UADbEAvY966vSUwIMO/D/XRuyu95d3sFNoJf9AqmA=
 ```
 ## Building
 To build everything locally you must first build the base image. 
