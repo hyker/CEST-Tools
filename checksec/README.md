@@ -13,7 +13,7 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
-The lastest MRENCLAVE value for Checksec tool enclave was (base64): 
+The lastest MRENCLAVE value for Checksec tool enclave was (hex): 
 ```
-ZylwUX/esNFxBjDZmrkujhFu8LDJn+PjBF2AN3RR4jc=
+43a64f6e1fdba5c85f3785d35e74be3adf0bdfb8e090b0318addcadee4736ec1
 ```
