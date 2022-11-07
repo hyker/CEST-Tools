@@ -11,9 +11,9 @@ To verify that the software running inside the enclave is the same as in this re
 ```console
 gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
-The lastest MRENCLAVE value for CodeChecker tool enclave was (hex): 
+The lastest MRENCLAVE value for CodeChecker tool enclave was (base64): 
 ```
-46ac0347fc52bcfc445320215ba1a08c33eb986f245b7e9622875cb8f8f1ac37
+RqwDR/xSvPxEUyAhW6GgjDPrmG8kW36WIodcuPjxrDc=
 ```
 ## Building
 To build everything locally you must first build the base image. 
