@@ -27,10 +27,14 @@ Tools of CEST
 First make sure to build the baseimage
 
 ```
-  docker build base-image/gamine-dcap -t hyker/gramine-dcap
+  docker build base-image/ -t hyker/gramine-dcap
 ```
 
-To build each tool
+To build each tool use the build_tool.sh script
+```
+./build_tool.sh <tool>
+```
+or build with the following commands
 
 ```
   cp -R common <tool>/common
