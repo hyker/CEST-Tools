@@ -13,5 +13,5 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64): 
 ```
-M9Hd5M13HjdxadtalmYEIsbS6HqbJHFP+5Ht9VFKPuY=
+7bf8106cf095ce5723cbc494e04ea78224b3995b09aa020743d5bb28fa913832
 ```
