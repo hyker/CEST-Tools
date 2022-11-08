@@ -15,6 +15,10 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The MRENCLAVE value will be printed in hexadecimal and needs to be converted to base64 to be compared with the value from the CEST-platform.
 
+```console
+gramine-sgx-get-token --output python3.token --sig python3.sig | sed -n 's/mr_enclave://p' |  xxd -r -p | base64
+```
+
 The lastest MRENCLAVE value for Checksec tool enclave was (base64): 
 ```
 1lc2x1e+i5jknKN1/lqgNrvJDIFLbubvuyjnns3q5vQ=
