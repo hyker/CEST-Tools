@@ -1,13 +1,15 @@
 FROM hyker/gramine-dcap
 
-RUN apt update && apt install -y curl=7.68.0-1ubuntu2.13 wget git
+ENV DEBIAN_FRONTEND noninteractive
 
+RUN apt update && apt install -y curl=7.68.0-1ubuntu2.13 wget git
 
 RUN apt install -y \
    # gramine-dcap \
     python3-dev=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.6 \
     unzip=6.0-25ubuntu1 \
+    xxd=2:8.1.2269-1ubuntu5.9 \
  && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://packages.microsoft.com/ubuntu/20.04/prod/pool/main/a/az-dcap-client/az-dcap-client_1.11.2_amd64.deb \
@@ -33,7 +35,7 @@ COPY common/sgx_default_qcnl.conf /etc/sgx_default_qcnl.conf
 RUN mkdir -p /script
 COPY common/run.py /script/run.py
 COPY tool.py /script/tool.py
-RUN mkdir /encrypted
+RUN mkdir /encrypteo
 COPY common/cestcrypto.py /script/cestcrypto.py
 
 RUN mkdir /extratmp

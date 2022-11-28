@@ -15,7 +15,7 @@ The MRENCLAVE value will be printed in hexadecimal and needs to be converted to 
 
 The lastest MRENCLAVE value for CodeChecker tool enclave was (base64): 
 ```
-RqwDR/xSvPxEUyAhW6GgjDPrmG8kW36WIodcuPjxrDc=
+/tBW8o74I96pPz+UZ8uBgaYC1aB7s4ILmeFyQSQhkq4=
 ```
 ## Building
 To build everything locally you must first build the base image. 

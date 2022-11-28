@@ -1,0 +1,7 @@
+apiVersion: skaffold/v2beta24
+kind: Config
+deploy:
+  kubeContext: minikube
+  kubectl:
+    manifests:
+    - deployment.yaml

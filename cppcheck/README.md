@@ -13,9 +13,9 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The MRENCLAVE value will be printed in hexadecimal and needs to be converted to base64 to be compared with the value from the CEST-platform.
 
-The lastest MRENCLAVE value for Cppcheck tool enclave was (hex): 
+The lastest MRENCLAVE value for Cppcheck tool enclave was (base64): 
 ```
-p9UADbEAvY966vSUwIMO/D/XRuyu95d3sFNoJf9AqmA=
+qSQQXK8M7bspK6PWFGy+pNVPmwlCTX/jsqHKPy+arRI=
 ```
 ## Building
 To build everything locally you must first build the base image. 

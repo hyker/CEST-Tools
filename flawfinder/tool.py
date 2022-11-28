@@ -1,32 +1,40 @@
 import subprocess
 import re
+import json
 from cestcrypto import dohash
 
-TOOL_FOLDER = "/pod-storage/Flawfinder2.0.19/"
+TOOL = "Flawfinder 2.0.19"
+TOOL_FOLDER = "/pod-storage/{}/".format(TOOL.replace(" ", ""))
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
 
+
 def init_tool():
-  return
+    return
+
 
 def run_tool(result_folder, argument, tools_are_silent):
-  command = "/usr/local/bin/flawfinder --sarif {} {}".format(argument, READABLE_TOE)
-  command_no_extra_spaces = re.sub(" +", " ", command)
-  result = subprocess.run(command_no_extra_spaces.split(" "), capture_output=True, text=True)
-  if (not result.stdout.startswith("{")):
-    raise Exception(str(result.stdout))
-  
-  with open(result_folder + "/result", "w") as result_file:
-      result_file.write(result.stdout)
+    command = "/usr/local/bin/flawfinder --sarif {} {}".format(
+        argument, READABLE_TOE)
+    command_no_extra_spaces = re.sub(" +", " ", command)
 
-  output_hash = dohash(result.stdout.encode("utf-8"))
+    result = subprocess.run(command_no_extra_spaces.split(
+        " "), capture_output=True, text=True)
+    if (not result.stdout.startswith("{")):
+        raise Exception(str(result.stdout))
 
-  with open("/dev/attestation/user_report_data", "wb") as user_report_data:
-    user_report_data.write(output_hash)
+    result_json = json.loads(result.stdout)
 
-  # generating the quote
-  with open("/dev/attestation/quote", "rb") as q:
-    quote = q.read()
+    full_report = {
+        "tool": TOOL,
+        "command": [command_no_extra_spaces],
+        "report": result_json,
+    }
 
-  with open(result_folder + "/quote", "wb") as f:
-    f.write(quote)
+    report_with_std = {
+        "full_report": full_report,
+        "stdout": result.stdout,
+        "stderr": result.stderr,
+    }
+    
+    return report_with_std
