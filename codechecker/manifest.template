@@ -66,6 +66,7 @@
     { path = "/usr/bin/ranlib", uri = "file:/usr/bin/ranlib" },
     { path = "/usr/bin/git", uri = "file:/usr/bin/git" },
     { path = "/usr/bin/cc", uri = "file:/usr/bin/cc" },
+    { path = "/usr/bin/bash", uri = "file:/usr/bin/bash" },
     
 
     # Encrypted
@@ -159,7 +160,8 @@ trusted_files = [
     "file:/usr/lib/bfd-plugins/liblto_plugin.so",
     "file:/usr/bin/ranlib",
     "file:/usr/bin/git",
-    "file:/usr/bin/cc",
+    "file:/usr/bin/cc", 
+    "file:/usr/bin/bash",
 
     #"file:/bin/",
     #"file:/usr/bin/",
