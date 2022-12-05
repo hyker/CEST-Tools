@@ -13,9 +13,9 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The MRENCLAVE value will be printed in hexadecimal and needs to be converted to base64 to be compared with the value from the CEST-platform.
 
-The lastest MRENCLAVE value for Dependency-Check tool enclave was (hex): 
+The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64): 
 ```
-kFd97I3m7EJ4tfNKxAGe9mywOfiX02dSRpDSFveT7NI=
+TNEDe1/0VJofKGDLZ3NvFLql3Wonql9k3OH3wzaPHnQ=
 ```
 ## Building
 To build everything locally you must first build the base image. 

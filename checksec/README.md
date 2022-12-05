@@ -19,9 +19,9 @@ The MRENCLAVE value will be printed in hexadecimal and needs to be converted to 
 gramine-sgx-get-token --output python3.token --sig python3.sig | sed -n 's/mr_enclave://p' |  xxd -r -p | base64
 ```
 
-The MRENCLAVE value for Checksec tool enclave (base64): 
+The latest MRENCLAVE value for Checksec tool enclave was (base64): 
 ```
-1lc2x1e+i5jknKN1/lqgNrvJDIFLbubvuyjnns3q5vQ=
+JfitVJuKie/Wz9azrs2Gis1N3iWervf+zk03/yAWIS0=
 ```
 ## Building
 To build everything locally you must first build the base image. 

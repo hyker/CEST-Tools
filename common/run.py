@@ -16,7 +16,7 @@ from Crypto.Cipher import AES
 
 POLL_FOLDER = TOOL_FOLDER + "toes/"
 MISC_DATA_FOLDER = TOOL_FOLDER + "toe-miscdata/"
-TOOLS_ARE_SILENT = False
+TOOLS_ARE_SILENT = True
 
 
 os.makedirs(POLL_FOLDER, exist_ok=True)
@@ -130,24 +130,63 @@ while True:
     with open(toe_raw + "decrypted", "wb") as f:
         f.write(plain_toe)
 
-    with zipfile.ZipFile(toe_raw + "decrypted", "r") as zip_ref:
-        zip_ref.extractall(READABLE_TOE)
+    try:
+        with zipfile.ZipFile(toe_raw + "decrypted", "r") as zip_ref:
+            zip_ref.extractall(READABLE_TOE)
+    except Exception as e:
+        os.remove(toe_raw)
+        os.remove(toe_raw + "decrypted")
+        with open(result_folder + "/progress", "w") as progress_file:
+            progress_file.write("Failed to unzip TOE, the uploaded to must compressed to zip format.")
+        # Go back to start of the loop
+        continue
 
     # Start analysis
     with open(result_folder + "/progress", "w") as progress_file:
         progress_file.write("Started\n")
 
     try:
-        run_tool(result_folder, argument, TOOLS_ARE_SILENT)
-        with open(result_folder + "/progress", "w") as progress_file:
-            progress_file.write("Done\n")
+        report_with_std = run_tool(result_folder, argument, TOOLS_ARE_SILENT)
+
+        full_report = report_with_std["full_report"]
+        stdout = report_with_std["stdout"]
+        stderr = report_with_std["stderr"]
+
+        # Encrypt before writing
+        # Only write result if miscdata is still there
+        if (os.path.exists(MISC_DATA)):
+            with open(result_folder + "/result", "w") as result_file:
+                json.dump(full_report, result_file)
+
+            with open(result_folder + "/stdout", "w") as stdout_file:
+                stdout_file.write(stdout)
+
+            with open(result_folder + "/stderr", "w") as stderr_file:
+                stderr_file.write(stderr)
+            
+            output_hash = dohash(json.dumps(full_report).encode("utf-8"))
+
+            with open("/dev/attestation/user_report_data", "wb") as user_report_data:
+                user_report_data.write(output_hash)
+
+            # generating the quote
+            with open("/dev/attestation/quote", "rb") as q:
+                quote = q.read()
+
+            with open(result_folder + "/quote", "wb") as f:
+                f.write(quote)
+
+            with open(result_folder + "/progress", "w") as progress_file:
+                progress_file.write("Done\n")
     except Exception as e:
         with open(result_folder + "/progress", "w") as progress_file:
             progress_file.write(str(e))
 
     # Clean up
-    os.remove(toe_raw)
-    os.remove(toe_raw + "decrypted")
+    if os.path.exists(toe_raw):
+        os.remove(toe_raw)
+    if os.path.exists(toe_raw + "decrypted"):
+        os.remove(toe_raw + "decrypted")
 
     toes_to_be_removed = glob.glob(READABLE_TOE + "*")
     for toe in toes_to_be_removed:
