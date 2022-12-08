@@ -67,6 +67,11 @@
     { path = "/usr/bin/git", uri = "file:/usr/bin/git" },
     { path = "/usr/bin/cc", uri = "file:/usr/bin/cc" },
     { path = "/usr/bin/bash", uri = "file:/usr/bin/bash" },
+    { path = "/usr/bin/gcc", uri = "file:/usr/bin/gcc" },
+    { path = "/usr/bin/x86_64-linux-gnu-gcc-9", uri = "file:/usr/bin/x86_64-linux-gnu-gcc-9" },
+    { path = "/usr/bin/g++", uri = "file:/usr/bin/g++" },
+    { path = "/usr/bin/x86_64-linux-gnu-g++-9", uri = "file:/usr/bin/x86_64-linux-gnu-g++-9" },
+
     
 
     # Encrypted
@@ -162,6 +167,10 @@ trusted_files = [
     "file:/usr/bin/git",
     "file:/usr/bin/cc", 
     "file:/usr/bin/bash",
+    "file:/usr/bin/gcc",
+    "file:/usr/bin/x86_64-linux-gnu-gcc-9",
+    "file:/usr/bin/g++",
+    "file:/usr/bin/x86_64-linux-gnu-g++-9",
 
     #"file:/bin/",
     #"file:/usr/bin/",
