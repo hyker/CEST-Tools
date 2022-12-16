@@ -25,7 +25,7 @@
     { path = "/usr/", uri = "file:/usr/" },
     { path = "/script/", uri = "file:/script/" },
     { path = "/pod-storage/Checksec.pyv0.6.2(Hykerfork)/", uri = "file:/pod-storage/Checksec.pyv0.6.2(Hykerfork)/" },
-    { type = "encrypted", path = "/toe/", uri = "file:/toe-host/", key_name = "_sgx_mrenclave" },
+    { type = "encrypted", path = "/toe/", uri = "file:/toe/", key_name = "_sgx_mrenclave" },
     { type = "encrypted", path = "/result/", uri = "file:/result-host/", key_name = "_sgx_mrenclave" },
     { path = "/gramine_args.txt", uri = "file:/gramine_args.txt" },
     { path = "/usr/local/lib/python3.8/dist-packages/", uri = "file:/usr/local/lib/python3.8/dist-packages/"},

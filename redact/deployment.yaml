@@ -8,17 +8,17 @@ profiles:
     local:
       useBuildkit: true
     artifacts:
-    - image: checksec-enclave
+    - image: redact-enclave
       context: .
       docker: {}
   deploy:
     kubeContext: minikube
     helm:
       releases:
-      - name: checksec-enclave
+      - name: redact-enclave
         chartPath: .helm
         artifactOverrides:
-          image: checksec-enclave
+          image: redact-enclave
         imageStrategy:
           helm: {}
         setValueTemplates:
