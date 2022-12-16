@@ -40,6 +40,17 @@ def get_key_from_json(pub):
     pub_point = ec.Point(curve, x=pubx, y=puby)
     return ec.Keypair(curve, pub=pub_point)
 
+def remove_files_from_folder(folder):
+    for filename in os.listdir(folder):
+        file_path = os.path.join(folder, filename)
+        try:
+            if os.path.isfile(file_path) or os.path.islink(file_path):
+                os.unlink(file_path)
+            elif os.path.isdir(file_path):
+                shutil.rmtree(file_path)
+        except Exception as e:
+            print('Failed to delete %s. Reason: %s' % (file_path, e), flush=True)
+
 
 with open("/dev/attestation/user_report_data", "wb") as user_report_data:
     user_report_data.write(public_hash)
@@ -201,6 +212,7 @@ while True:
 
     # Clean up
     os.remove(toe_raw)
+    remove_files_from_folder(READABLE_TOE)
     #
     #toes_to_be_removed = glob.glob(READABLE_TOE + "*")
     #for toe in toes_to_be_removed:

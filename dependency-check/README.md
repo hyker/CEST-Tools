@@ -15,7 +15,7 @@ The MRENCLAVE value will be printed in hexadecimal and needs to be converted to 
 
 The lastest MRENCLAVE value for Dependency-Check tool enclave was (base64): 
 ```
-TNEDe1/0VJofKGDLZ3NvFLql3Wonql9k3OH3wzaPHnQ=
+dliwlDnkId2adnfGpZh0MzigHVuafUb207SrtRJO+2A=
 ```
 ## Building
 To build everything locally you must first build the base image. 
