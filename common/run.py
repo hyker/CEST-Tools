@@ -33,10 +33,8 @@ def ecc_point_to_256_bit_key(point):
     return point.x
 
 def get_key_from_json(pub):
-    print("1", flush=True)
     pubx = int.from_bytes(base64.urlsafe_b64decode(pub["x"] + '=='), byteorder="big")
     puby = int.from_bytes(base64.urlsafe_b64decode(pub["y"] + '=='), byteorder="big")
-    print("2", flush=True)
     pub_point = ec.Point(curve, x=pubx, y=puby)
     return ec.Keypair(curve, pub=pub_point)
 
@@ -66,8 +64,6 @@ with open(MISC_DATA_FOLDER + "quote" + "", "wb") as f:
     f.write(quote)
 
 while True:
-    print("Started loop", flush=True)
-
     # Check if there is new toe to test
     toe_list = glob.glob(POLL_FOLDER + "*")
 
@@ -78,7 +74,6 @@ while True:
 
     # Unzip toe
     toe_raw = toe_list[0]
-    print('toe_raw:{}'.format(toe_raw))
     test_run_id = toe_raw.split("/")[-1]
 
     # Create result file structure in shared storage
@@ -89,7 +84,7 @@ while True:
     MISC_DATA = MISC_DATA_FOLDER + test_run_id
 
     #/pod-storage/redactions/toe-miscdata/thingiling
-    print("file: {}".format(MISC_DATA), flush=True)
+    #print("file: {}".format(MISC_DATA), flush=True)
     argument = ""
     encryptedSymetricInfo = {}
     encryptSymetricKey = {}
@@ -108,22 +103,18 @@ while True:
 
     try:
         alls = encryptedSymetricInfo
-        print(alls, flush=True)
         pub_keypair = get_key_from_json(alls["userPublicKey"])
 
-        print("3", flush=True)
         secret = ecdh_priv.get_secret(pub_keypair)
         k = ecc_point_to_256_bit_key(secret)
         sharedKey = k.to_bytes(32, byteorder='big')
-        print("4", flush=True)
-        base64K = base64.urlsafe_b64encode(sharedKey).decode('ascii')
-        print("sharedKey:"+base64K, flush=True)
 
-        print("iv:" + alls["iv"], flush=True)
+        base64K = base64.urlsafe_b64encode(sharedKey).decode('ascii')
+
         iv = base64.urlsafe_b64decode(alls["iv"] + "==")
 
         cipher_and_auth_tag = base64.urlsafe_b64decode(alls["cipher"])
-        print("cipher:" + alls["cipher"], flush=True)
+
         cipher = cipher_and_auth_tag[:-16]
         auth_tag = cipher_and_auth_tag[-16:]
 
@@ -143,18 +134,15 @@ while True:
 
     symKeyRaw = json.loads(plain_text)
     symKey = base64.urlsafe_b64decode(symKeyRaw["k"] + "==")
-    print("iv3:{}".format(symKeyRaw["iv"]), flush=True)
-    myNonce = base64.urlsafe_b64decode(symKeyRaw["iv"] + "==")
-    print("iv4 i make it this far myNonce{}".format(myNonce), flush=True)
-    symKeyUsable = AES.new(symKey, AES.MODE_GCM, nonce=myNonce)
 
-    print("{} {} {} hahahahah".format(myNonce, type(myNonce), len(myNonce)), flush=True)
+    myNonce = base64.urlsafe_b64decode(symKeyRaw["iv"] + "==")
+
+    symKeyUsable = AES.new(symKey, AES.MODE_GCM, nonce=myNonce)
 
     toe_cipher = encrypted_message[:-16]
     toe_auth_tag = encrypted_message[-16:]
 
     plain_toe = symKeyUsable.decrypt_and_verify(toe_cipher, toe_auth_tag)
-    print('plain toe aint that the truth', flush=True)
 
     with open(READABLE_TOE + "decrypted.zip", "wb") as f:
         f.write(plain_toe)
@@ -162,9 +150,9 @@ while True:
     with zipfile.ZipFile(READABLE_TOE + "decrypted.zip", "r") as zip_ref:
         zip_ref.extractall(READABLE_TOE)
 
-    with os.scandir(READABLE_TOE) as entries:
-        for entry in entries:
-            print(entry.name)
+    # with os.scandir(READABLE_TOE) as entries:
+    #     for entry in entries:
+    #         print(entry.name)
 
     # Start analysis
     with open(result_folder + "/progress", "w") as progress_file:
@@ -178,7 +166,6 @@ while True:
         readerSharedKey = ecdh_priv.get_secret(reader_public_key)
         k = ecc_point_to_256_bit_key(readerSharedKey)
         sharedKey = k.to_bytes(32, byteorder='big')
-        print("4", flush=True)
         aes = AES.new(sharedKey, AES.MODE_GCM, nonce=myNonce)
         ciphertext, authTag = aes.encrypt_and_digest(full_report_string)
 

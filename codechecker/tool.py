@@ -91,8 +91,8 @@ def run_tool(result_folder, argument, tools_are_silent):
 
     report_with_std = {
         "full_report": full_report,
-        "stdout": "{}\n{}\n{}".format(result_log.stdout, result_analyze.stdout, result_parse.stdout) ,
-        "stderr": "{}\n{}\n{}".format(result_log.stderr, result_analyze.stderr, result_parse.stderr) ,
+        "stdout": "{}\n{}\n{}".format(result_log.stdout, result_analyze.stdout, result_parse.stdout),
+        "stderr": "{}\n{}\n{}".format(result_log.stderr, result_analyze.stderr, result_parse.stderr),
     }
 
     return report_with_std
