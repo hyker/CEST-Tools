@@ -21,7 +21,7 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | sed -n 's/mr_en
 
 The latest MRENCLAVE value for Checksec tool enclave was (base64): 
 ```
-T8MQ8qZRZwdlQlQ7ZSAflyj7sZHD98xjpz7IS/vFoQ8=
+9oGsIr/2/VBPrVHzkofDyLAop8uLrFY1v4lAV866Y0A=
 ```
 ## Building
 To build everything locally you must first build the base image. 

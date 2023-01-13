@@ -15,7 +15,7 @@ The MRENCLAVE value will be printed in hexadecimal and needs to be converted to 
 
 The lastest MRENCLAVE value for Cppcheck tool enclave was (base64): 
 ```
-g8p4q7cvs14srZ89weAWPEhIJw/Wap9Le+bJGyX6cD0=
+M9e+UIC7S35BQOV3oc1Tb6vV+i/JjtYk5dhJKqGJ4Pw=
 ```
 ## Building
 To build everything locally you must first build the base image. 

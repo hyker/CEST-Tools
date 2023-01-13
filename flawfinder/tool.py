@@ -1,13 +1,16 @@
 import subprocess
 import re
 import json
-from cestcrypto import dohash
 
 TOOL = "Flawfinder 2.0.19"
 TOOL_FOLDER = "/pod-storage/{}/".format(TOOL.replace(" ", ""))
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
 
+class FailedProcess:
+    def __init__(self, stderr):
+        self.stdout = ""
+        self.stderr = stderr
 
 def init_tool():
     return
@@ -18,15 +21,17 @@ def run_tool(result_folder, argument, tools_are_silent):
         argument, READABLE_TOE)
     command_no_extra_spaces = re.sub(" +", " ", command)
 
-    result = subprocess.run(command_no_extra_spaces.split(
-        " "), capture_output=True, text=True)
-    if (not result.stdout.startswith("{")):
-        raise Exception(str(result.stdout))
+    try:
+        result = subprocess.run(command_no_extra_spaces.split(
+            " "), capture_output=True, text=True)
+    except Exception as e:
+        result = FailedProcess(str(e))
 
     result_json = json.loads(result.stdout)
 
     full_report = {
         "tool": TOOL,
+        "port_version": 1,
         "command": [command_no_extra_spaces],
         "report": result_json,
     }

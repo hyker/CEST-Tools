@@ -4,7 +4,7 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN apt-get update && apt-get install -y \
     wget=1.20.3-1ubuntu1 \
-    curl=7.68.0-1ubuntu2.14 \
+    curl=7.68.0-1ubuntu2.15 \
     python3-dev=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.6 \
     unzip=6.0-25ubuntu1 \
@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
     pkg-config=0.29.1-0ubuntu4 \
     cmake=3.16.3-1ubuntu1.20.04.1 \
     libarmadillo-dev=1:9.800.4+dfsg-1build1 \
-    xxd=2:8.1.2269-1ubuntu5.9 \
+    xxd=2:8.1.2269-1ubuntu5.11 \
     libfftw3-dev libmbedtls-dev libboost-program-options-dev libconfig++-dev libsctp-dev git \
  && rm -rf /var/lib/apt/lists/*
 

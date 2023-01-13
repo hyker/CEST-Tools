@@ -16,7 +16,12 @@ from Crypto.Cipher import AES
 
 POLL_FOLDER = TOOL_FOLDER + "toes/"
 MISC_DATA_FOLDER = TOOL_FOLDER + "toe-miscdata/"
-TOOLS_ARE_SILENT = False
+TOOLS_ARE_SILENT = True
+
+class FailedProcess:
+    def __init__(self, stderr):
+        self.stdout = ""
+        self.author = stderr
 
 os.makedirs(POLL_FOLDER, exist_ok=True)
 os.makedirs(MISC_DATA_FOLDER, exist_ok=True)

@@ -1,7 +1,25 @@
-apiVersion: skaffold/v2beta24
+apiVersion: skaffold/v2beta29
 kind: Config
-deploy:
-  kubeContext: minikube
-  kubectl:
-    manifests:
-    - deployment.yaml
+profiles:
+- name: development
+  activation:
+  - command: dev
+  build:
+    local:
+      useBuildkit: true
+    artifacts:
+    - image: flawfinder-enclave
+      context: .
+      docker: {}
+  deploy:
+    kubeContext: minikube
+    helm:
+      releases:
+      - name: flawfinder-enclave
+        chartPath: .helm
+        artifactOverrides:
+          image: flawfinder-enclave
+        imageStrategy:
+          helm: {}
+        setValueTemplates:
+          image.pullPolicy: Never

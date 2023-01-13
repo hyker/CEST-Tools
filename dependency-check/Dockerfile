@@ -10,7 +10,7 @@ RUN  apt-get update && apt-get install -y \
   python3-xmltodict=0.12.0-1 \
   python3-pip=20.0.2-5ubuntu1.6 \
   openjdk-11-jdk=11.0.17+8-1ubuntu2~20.04 \
-  xxd=2:8.1.2269-1ubuntu5.9 \
+  xxd=2:8.1.2269-1ubuntu5.11 \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install pycryptodome tinyec

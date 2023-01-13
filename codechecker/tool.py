@@ -1,15 +1,18 @@
 import subprocess
-import glob
 import os
 import shutil
 import re
 import json
-from cestcrypto import dohash
 
 TOOL = "CodeChecker 6.18.2"
 TOOL_FOLDER = "/pod-storage/{}/".format(TOOL.replace(" ", ""))
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
+
+class FailedProcess:
+    def __init__(self, stderr):
+        self.stdout = ""
+        self.stderr = stderr
 
 
 def init_tool():
@@ -23,12 +26,6 @@ def find(name, path):
 
 
 def run_tool(result_folder, argument, tools_are_silent):
-    # Get project path
-    project_folder_path = READABLE_TOE
-
-    # toe_dir_list = glob.glob(READABLE_TOE + "*")
-    # if len(toe_dir_list) == 1 and os.path.isdir(toe_dir_list[0]):
-    #     project_folder_path = toe_dir_list[0]
 
     makefile_path = find("Makefile", READABLE_TOE)
     if makefile_path == None:
@@ -56,6 +53,7 @@ def run_tool(result_folder, argument, tools_are_silent):
     # Save tool, version and command to file
     tool_and_args = {
         "tool": TOOL,
+        "port_version": 1,
         "args": [
             log_command_no_extra_spaces,
             analyze_command_no_extra_spaces,
@@ -66,21 +64,38 @@ def run_tool(result_folder, argument, tools_are_silent):
     with open(result_folder + "/args", "w") as args_file:
         json.dump(tool_and_args, args_file)
 
-    result_log = subprocess.run(log_command_no_extra_spaces.split(
-        " "), capture_output=tools_are_silent, text=True)
-    result_analyze = subprocess.run(analyze_command_no_extra_spaces.split(
-        " "), capture_output=tools_are_silent, text=True)
-    result_parse = subprocess.run(parse_command_no_extra_spaces.split(
-        " "), capture_output=tools_are_silent, text=True)
+    try:
+        result_log = subprocess.run(log_command_no_extra_spaces.split(
+            " "), capture_output=tools_are_silent, text=True)
+    except Exception as e:
+        result_log = FailedProcess(str(e))
 
-    with open(result_file, "r") as f:
-        result_json = json.load(f)
+    try: 
+        result_analyze = subprocess.run(analyze_command_no_extra_spaces.split(
+            " "), capture_output=tools_are_silent, text=True)
+    except Exception as e:
+        result_analyze = FailedProcess(str(e))
+    
+    try:
+        result_parse = subprocess.run(parse_command_no_extra_spaces.split(
+            " "), capture_output=tools_are_silent, text=True)
+    except Exception as e:
+        result_parse = FailedProcess(str(e))
 
-    os.remove(output_file + "_cc")
-    shutil.rmtree(output_file + "_analyze")
+    try:
+        with open(result_file, "r") as f:
+            result_json = json.load(f)
+    except:
+        result_json = {"error": "analysis failed, no output file found"}
+
+    if os.path.exists(output_file + "_cc"):
+        os.remove(output_file + "_cc")
+    if os.path.exists(output_file + "_analyze"):
+        shutil.rmtree(output_file + "_analyze")
 
     full_report = {
         "tool": TOOL,
+        "port_version": 1,
         "command": [
             log_command_no_extra_spaces,
             analyze_command_no_extra_spaces,

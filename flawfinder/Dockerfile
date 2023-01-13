@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     python3-dev=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.6 \
     unzip=6.0-25ubuntu1 \
-    xxd=2:8.1.2269-1ubuntu5.9 \
+    xxd=2:8.1.2269-1ubuntu5.11 \
  && rm -rf /var/lib/apt/lists/*
 
 RUN pip3 install flawfinder==2.0.19 pycryptodome tinyec

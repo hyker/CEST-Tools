@@ -9,7 +9,7 @@ RUN apt install -y \
     python3-dev=3.8.2-0ubuntu2 \
     python3-pip=20.0.2-5ubuntu1.6 \
     unzip=6.0-25ubuntu1 \
-    xxd=2:8.1.2269-1ubuntu5.9 \
+    xxd=2:8.1.2269-1ubuntu5.11 \
  && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://packages.microsoft.com/ubuntu/20.04/prod/pool/main/a/az-dcap-client/az-dcap-client_1.11.2_amd64.deb \

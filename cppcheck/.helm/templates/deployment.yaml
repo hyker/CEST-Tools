@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+    spec:
+      volumes:
+        - name: pod-storage
+          persistentVolumeClaim:
+            claimName: storage-claim
+        - name: var-run-aesmd
+          hostPath:
+            path: /var/run/aesmd
+      containers:
+      - name: {{ .Release.Name }}
+        image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        env:
+        - name: SGX_AESM_ADDR
+          value: "1"
+        volumeMounts:
+        - mountPath: "/pod-storage/"
+          name: pod-storage
+        - name: var-run-aesmd
+          mountPath: /var/run/aesmd
+        resources:
+          limits:
+            sgx.intel.com/epc: "10Mi"
+            sgx.intel.com/enclave: 1
+            sgx.intel.com/provision: 1

@@ -1,12 +1,16 @@
 import subprocess
 import re
 import json
-from cestcrypto import dohash
 
 TOOL = "Checksec.py v0.6.2(Hykerfork)"
 TOOL_FOLDER = "/pod-storage/{}/".format(TOOL.replace(" ", ""))
 INTERMEDIATE_RESULT = "/result/"
 READABLE_TOE = "/toe/"
+
+class FailedProcess:
+    def __init__(self, stderr):
+        self.stdout = ""
+        self.author = stderr
 
 
 def run_tool(result_folder, argument, tools_are_silent):
@@ -14,12 +18,17 @@ def run_tool(result_folder, argument, tools_are_silent):
         argument, READABLE_TOE)
     command_no_extra_spaces = re.sub(" +", " ", command)
 
-    result = subprocess.run(command_no_extra_spaces.split(
-        " "), capture_output=True, text=True)
+    try:
+        result = subprocess.run(command_no_extra_spaces.split(
+            " "), capture_output=True, text=True)
+    except Exception as e:
+        result = FailedProcess(str(e))
+
     result_json = json.loads(result.stdout)
 
     full_report = {
         "tool": TOOL,
+        "port_version": 1,
         "command": [command_no_extra_spaces],
         "report": result_json,
     }
