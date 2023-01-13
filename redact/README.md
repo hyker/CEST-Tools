@@ -8,8 +8,8 @@ gramine-sgx-get-token --output python3.token --sig python3.sig | grep mr_enclave
 ```
 The MRENCLAVE value will be printed in hexadecimal and needs to be converted to base64 to be compared with the value from the CEST-platform.
 
-The lastest MRENCLAVE value for Cppcheck tool enclave was (base64): 
+The lastest MRENCLAVE value for redact tool enclave was (base64): 
 ```
-hUv9l3jpQE+1/DUXHaPIknaYgtbn2BN0hIG+QIs3xI0=
+yFFunYD7vt1HJ9xXE2yoixB3rAaXmwunpQMxDYS/tR4=
 ```
 
