@@ -10,6 +10,6 @@ The MRENCLAVE value will be printed in hexadecimal and needs to be converted to 
 
 The lastest MRENCLAVE value for redact tool enclave was (base64): 
 ```
-yFFunYD7vt1HJ9xXE2yoixB3rAaXmwunpQMxDYS/tR4=
+7ctVUuGfWGA7Nd5vyQ80qDy0zeLm8xcX12inyvr5aUg=
 ```
 
