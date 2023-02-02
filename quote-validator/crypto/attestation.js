@@ -71,6 +71,7 @@ const INTEL_QUOTE_VERSION = 3;
 const OE_SGX_PCK_ID_PCK_CERT_CHAIN = 5;
 const HEADER_VERSION = 1;
 const REMOTE_REPORT_TYPE = 2;
+const SGX_DEBUG_FLAG = 2;
 
 function parseReportBody(seeker) {
   //  u8[16] cpusvn
@@ -280,6 +281,11 @@ export const verifyReport = async (report, { securityVersion = 0, MRENCLAVE, sig
     certs: certificateChain.slice().reverse(),
     crls: crls
   }).verify()
+
+  // Verify the enclave is in production mode
+  if ((quote.reportBody.attributes.flags & SGX_DEBUG_FLAG) === SGX_DEBUG_FLAG){
+    throw Error(`Failed to verify enclave is in production mode, attributes.flags:` + quote.reportBody.attributes.flags.toString(2));
+  }
 
   // Verify certificate chain
   if (!certificateChainValidationResult.result) {
