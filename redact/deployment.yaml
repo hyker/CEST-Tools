@@ -1,25 +1,40 @@
-apiVersion: skaffold/v2beta29
-kind: Config
-profiles:
-- name: development
-  activation:
-  - command: dev
-  build:
-    local:
-      useBuildkit: true
-    artifacts:
-    - image: redact-enclave
-      context: .
-      docker: {}
-  deploy:
-    kubeContext: minikube
-    helm:
-      releases:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redact-enclave
+  labels:
+    app: redact-enclave
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redact-enclave
+  template:
+    metadata:
+        labels:
+          app: redact-enclave
+    spec:
+      volumes:
+        - name: pod-storage
+          persistentVolumeClaim:
+            claimName: storage-claim
+        - name: var-run-aesmd
+          hostPath:
+            path: /var/run/aesmd
+      containers:
       - name: redact-enclave
-        chartPath: .helm
-        artifactOverrides:
-          image: redact-enclave
-        imageStrategy:
-          helm: {}
-        setValueTemplates:
-          image.pullPolicy: Never
+        image: hyker/redact-enclave
+        imagePullPolicy: Always
+        env:
+        - name: SGX_AESM_ADDR
+          value: "1"
+        volumeMounts:
+          - mountPath: "/pod-storage/"
+            name: pod-storage
+          - name: var-run-aesmd
+            mountPath: /var/run/aesmd
+        resources:
+          limits:
+            sgx.intel.com/epc: "10Mi"
+            sgx.intel.com/enclave: 1
+            sgx.intel.com/provision: 1
