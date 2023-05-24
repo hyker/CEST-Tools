@@ -7,9 +7,9 @@ RUN apt update && apt install -y curl=7.68.0-1ubuntu2.13 wget git
 RUN apt install -y \
    # gramine-dcap \
     python3-dev=3.8.2-0ubuntu2 \
-    python3-pip=20.0.2-5ubuntu1.6 \
+    python3-pip=20.0.2-5ubuntu1.8 \
     unzip=6.0-25ubuntu1 \
-    xxd=2:8.1.2269-1ubuntu5.11 \
+    xxd=2:8.1.2269-1ubuntu5.14 \
  && rm -rf /var/lib/apt/lists/*
 
 RUN wget https://packages.microsoft.com/ubuntu/20.04/prod/pool/main/a/az-dcap-client/az-dcap-client_1.11.2_amd64.deb \
@@ -61,4 +61,4 @@ RUN gramine-sgx-get-token \
     --sig python3.sig
 
 #CMD python3 /script/run.py
-CMD ["/restart_aesm.sh ; exec gramine-sgx python3"]
+CMD ["/restart_aesm.sh ; mkdir /dev/sgx ; ln -s /dev/sgx_enclave /dev/sgx/enclave ; ln -s /dev/sgx_provision /dev/sgx/provision ; gramine-sgx python3"]

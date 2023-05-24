@@ -11,7 +11,7 @@ RUN echo 'deb [arch=amd64] https://download.01.org/intel-sgx/sgx_repo/ubuntu foc
 
 RUN apt update
 
-RUN DEBIAN_FRONTEND=noninteractive apt install -y gramine-dcap \
+RUN DEBIAN_FRONTEND=noninteractive apt install -y gramine \
     sgx-aesm-service \
     libsgx-aesm-launch-plugin \
     libsgx-aesm-epid-plugin \

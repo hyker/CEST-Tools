@@ -63,4 +63,4 @@ RUN gramine-sgx-get-token \
     --sig python3.sig
 
 #cppcheck puts out result to error stream
-CMD ["/restart_aesm.sh ; exec gramine-sgx python3"]
+CMD ["/restart_aesm.sh ; mkdir /dev/sgx ; ln -s /dev/sgx_enclave /dev/sgx/enclave ; ln -s /dev/sgx_provision /dev/sgx/provision ; gramine-sgx python3"]

@@ -49,4 +49,4 @@ RUN gramine-sgx-get-token \
     --output python3.token \
     --sig python3.sig
 
-CMD ["/restart_aesm.sh ; exec gramine-sgx python3"] 
+CMD ["/restart_aesm.sh ; mkdir /dev/sgx ; ln -s /dev/sgx_enclave /dev/sgx/enclave ; ln -s /dev/sgx_provision /dev/sgx/provision ; gramine-sgx python3"]
